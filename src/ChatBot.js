@@ -6,12 +6,27 @@ import ChatHeader from './ChatHeader.js'
 
 class ChatBot extends Component {
 
-  handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+  state = {
+    queryText: ""
+  }
+
+  handleChange = (event) => {
+    const updatedText = event.target.value
+    this.setState({queryText: updatedText})
+  }
+
+  handleSubmit = () => {
+    if (this.state.queryText !== "") {
       this
         .props
-        .sendMessage(event.target.value)
-      event.target.value = ""
+        .sendMessage(this.state.queryText)
+      this.setState({queryText: ""})
+    }
+  }
+
+  handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      this.handleSubmit()
     }
   }
 
@@ -60,15 +75,21 @@ class ChatBot extends Component {
             </table>
           </div>
           <div className="chat-input p-1">
-            <div id="chatForm" className="h-100 w-100">
+            <div id="chatForm" className="h-100 w-100 d-flex justify-content-around">
               <input
                 id="query"
+                name="queryText"
                 autoComplete="off"
                 autoFocus="true"
                 inputMode="text"
-                className="h-100 w-100 p-2"
+                className="h-100 w-75 p-2"
                 type="text"
+                value={this.state.queryText}
+                onChange={this.handleChange}
                 onKeyPress={this.handleKeyPress}/>
+              <button className="start-chat-button" onClick={this.handleSubmit}>
+                Send
+              </button>
             </div>
           </div>
         </div>
