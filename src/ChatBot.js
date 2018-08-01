@@ -17,22 +17,27 @@ class ChatBot extends Component {
 
   render() {
     const {feed} = this.props;
-    const serverFeed = feed.map((entry, i) => {
-      switch (entry.sender) {
-        case "server":
-          return (
-            <div className="server-response float-left" key={i}>
-              {entry.text}
-            </div>
-          );
-        case "user":
-          return (
-            <div className="user-request float-right" key={i}>
-              {entry.text}
-            </div>
-          );
+    const serverFeed = feed.map((entry, index) => {
+      switch (index) {
+        case 0:
+          return (null)
         default:
-          return (null);
+          switch (entry.sender) {
+            case "server":
+              return (
+                <div className="server-response float-left" key={index}>
+                  {entry.text}
+                </div>
+              );
+            case "user":
+              return (
+                <div className="user-request float-right" key={index}>
+                  {entry.text}
+                </div>
+              );
+            default:
+              return (null);
+          }
       }
     })
 
